@@ -44,7 +44,7 @@ namespace
 
     void dump_state()
     {
-#if 0
+#if 1
         std::cout << "skip_ranges: {";
         if (!context->skip_ranges.empty())
         {

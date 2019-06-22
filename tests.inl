@@ -576,6 +576,14 @@ TEST(correctness, splice_begin_begin)
     mass_push_back(c1, {1, 2, 3, 4});
     mass_push_back(c2, {5, 6, 7, 8});
     c1.splice(c1.begin(), c2, c2.begin(), std::next(c2.begin(), 2));
+    for (const auto &item : c1) {
+        std::cout << item << " ";
+    }
+    std::cout << std::endl;
+    for (const auto &item : c2) {
+        std::cout << item << " ";
+    }
+    std::cout << std::endl;
     expect_eq(c1, {5, 6, 1, 2, 3, 4});
     expect_eq(c2, {7, 8});
 }
@@ -624,6 +632,14 @@ TEST(correctness, splice_begin_empty)
     mass_push_back(c1, {1, 2, 3, 4});
     mass_push_back(c2, {5, 6, 7, 8});
     c1.splice(c1.begin(), c2, std::next(c2.begin(), 2), std::next(c2.begin(), 2));
+    for (const auto &item : c1) {
+        std::cout << item << " ";
+    }
+    std::cout << std::endl;
+    for (const auto &item : c2) {
+        std::cout << item << " ";
+    }
+    std::cout << std::endl;
     expect_eq(c1, {1, 2, 3, 4});
     expect_eq(c2, {5, 6, 7, 8});
 }
@@ -826,6 +842,17 @@ TEST(correctness, splice_iterators)
     EXPECT_EQ(5, *std::prev(k));
 }
 
+template <typename T>
+void print(list<T>& l) {
+    std::cout << "print" << std::endl;
+    if(l.empty())
+        std::cout << "empty" << std::endl;
+    for (const auto &item : l) {
+        std::cout << item << " ";
+    }
+    std::cout << std::endl;
+}
+
 TEST(correctness, swap)
 {
     counted::no_new_instances_guard g;
@@ -834,6 +861,8 @@ TEST(correctness, swap)
     mass_push_back(c1, {1, 2, 3, 4});
     mass_push_back(c2, {5, 6, 7, 8});
     swap(c1, c2);
+    print(c1);
+    print(c2);
     expect_eq(c1, {5, 6, 7, 8});
     expect_eq(c2, {1, 2, 3, 4});
 }
@@ -854,6 +883,8 @@ TEST(correctness, swap_empty)
     container c1, c2;
     mass_push_back(c1, {1, 2, 3, 4});
     swap(c1, c2);
+    print(c1);
+    print(c2);
     EXPECT_TRUE(c1.empty());
     expect_eq(c2, {1, 2, 3, 4});
     swap(c1, c2);
